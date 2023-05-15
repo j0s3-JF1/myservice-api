@@ -123,5 +123,39 @@ namespace MyService_API.DAO
 
             Conexao.Close();
         }
+
+        /*
+            Listagem de produtos do Trabalhador
+         */
+        public List<ProdutoT_DTO> ProdutosTrabalhador( int id )
+        {
+            var Conexao = ConnectionFactory.Build();
+            Conexao.Open();
+
+            var query = @"SELECT Produto_T.ID, Produto_T.NOME, Produto_T.DESCRICAO, Produto_T.PRECO, 
+                            Trabalhador.NOME, Trabalhador.EMAIL 
+                            FROM Produto_T 
+                            INNER JOIN Trabalhador ON Produto_T.ID_TRABALHADOR = Trabalhador.ID = @id";
+
+            var comando = new MySqlCommand(query, Conexao);
+            comando.Parameters.AddWithValue("@id", id);
+            comando.ExecuteNonQuery();
+
+            var reader = comando.ExecuteReader();
+            var Lista = new List<ProdutoT_DTO>();
+
+            while (reader.Read())
+            {
+                var produtos = new ProdutoT_DTO();
+                produtos.ID = int.Parse(reader["ID"].ToString());
+                produtos.Nome = reader["NOME"].ToString();
+                produtos.Descricao = reader["DESCRICAO"].ToString();
+                produtos.Preco = float.Parse(reader["PRECO"].ToString());
+                produtos.ID_Trabalhador = int.Parse(reader["ID_TRABALHADOR"].ToString());
+                Lista.Add(produtos);
+            }
+            Conexao.Close();
+            return Lista;
+        }
     }
 }
