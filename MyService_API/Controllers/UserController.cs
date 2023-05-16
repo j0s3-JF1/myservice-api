@@ -18,7 +18,7 @@ namespace MyService_API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Cadastrar( UserDTO user )
+        public IActionResult Cadastrar(UserDTO user)
         {
             UserDAO dao = new UserDAO();
             dao.CadastroUsuario(user);
@@ -26,14 +26,14 @@ namespace MyService_API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Alterar( UserDTO user)
+        public IActionResult Alterar(UserDTO user)
         {
             UserDAO dao = new UserDAO();
             dao.AlterarUsuario(user);
             return Ok(user);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Deletar(int id)
         {
             UserDAO dao = new UserDAO();
