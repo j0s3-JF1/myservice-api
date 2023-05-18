@@ -25,6 +25,7 @@ namespace MyService_API.DAO
                 trabalhador.Nome = reader["NOME"].ToString();
                 trabalhador.SobreNome = reader["SOBRENOME"].ToString();
                 trabalhador.CPF = reader["CPF"].ToString();
+                trabalhador.Telefone = reader["TELEFONE"].ToString();
                 trabalhador.Email = reader["EMAIL"].ToString();
                 trabalhador.Senha = reader["SENHA"].ToString();
                 lista.Add(trabalhador);
@@ -71,12 +72,13 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"INSERT INTO Trabalhador ( NOME, SOBRENOME, CPF, EMAIL, SENHA ) VALUES ( @nome, @sobrenome, @cpf, @email, @senha )";
+            var query = @"INSERT INTO Trabalhador ( NOME, SOBRENOME, CPF,TELEFONE, EMAIL, SENHA ) VALUES ( @nome, @sobrenome, @cpf, @telefone, @email, @senha )";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@nome", Trabalhador_Cadastro.Nome);
             comando.Parameters.AddWithValue("@sobrenome", Trabalhador_Cadastro.SobreNome);
             comando.Parameters.AddWithValue("@cpf", Trabalhador_Cadastro.CPF);
+            comando.Parameters.AddWithValue("@telefone", Trabalhador_Cadastro.Telefone);
             comando.Parameters.AddWithValue("@email", Trabalhador_Cadastro.Email);
             comando.Parameters.AddWithValue("@senha", Trabalhador_Cadastro.Senha);
 
@@ -93,12 +95,13 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"UPDATE Trabalhador SET NOME = @nome, SOBRENOME = @sobrenome, CPF = @cpf, EMAIL = @email, SENHA = @senha WHERE ID = @id";
+            var query = @"UPDATE Trabalhador SET NOME = @nome, SOBRENOME = @sobrenome, CPF = @cpf, TELEFONE = @telefone, EMAIL = @email, SENHA = @senha WHERE ID = @id";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@nome", Trabalhador_Alterar.Nome);
             comando.Parameters.AddWithValue("@sobrenome", Trabalhador_Alterar.SobreNome);
             comando.Parameters.AddWithValue("@cpf", Trabalhador_Alterar.CPF);
+            comando.Parameters.AddWithValue("@telefone", Trabalhador_Alterar.Telefone);
             comando.Parameters.AddWithValue("@email", Trabalhador_Alterar.Email);
             comando.Parameters.AddWithValue("@senha", Trabalhador_Alterar.Senha);
             comando.Parameters.AddWithValue("@id", Trabalhador_Alterar.ID);
@@ -132,7 +135,7 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"SELECT Produto_T.ID, Produto_T.NOME, Produto_T.DESCRICAO, Produto_T.PRECO, 
+            var query = @"SELECT Produto_T.ID, Produto_T.NOME, Produto_T.DESCRICAO, Produto_T.PRECO, Produto.INSTAGRAM,
                             Trabalhador.NOME, Trabalhador.EMAIL 
                             FROM Produto_T 
                             INNER JOIN Trabalhador ON Produto_T.ID_TRABALHADOR = Trabalhador.ID = @id";

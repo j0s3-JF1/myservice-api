@@ -24,9 +24,10 @@ namespace MyService_API.DAO
                 produto.ID = int.Parse(reader["ID"].ToString());
                 produto.Nome = reader["NOME"].ToString();
                 produto.Descricao = reader["DESCRICAO"].ToString();
+                produto.Categoria = reader["CATEGORIA"].ToString();
                 produto.Preco = float.Parse(reader["PRECO"].ToString());
+                produto.Instagram = reader["INSTAGRAM"].ToString();
                 produto.ID_EMPRESA = int.Parse(reader["ID_TRABALHADOR"].ToString());
-                produto.Like = int.Parse(reader["Likes"].ToString());
                 lista.Add(produto);
             }
             Conexao.Close();
@@ -41,62 +42,19 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"INSERT INTO Produto_E ( NOME, DESCRICAO, PRECO ) VALUES ( @nome, @descricao, @preco )";
+            var query = @"INSERT INTO Produto_E ( NOME, DESCRICAO, CATEGORIA, PRECO, INSTAGRAM ) VALUES ( @nome, @descricao, @categoria, @preco, @insta )";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@nome", Cadastro_Produto.Nome);
             comando.Parameters.AddWithValue("@descricao", Cadastro_Produto.Descricao);
+            comando.Parameters.AddWithValue("@categoria", Cadastro_Produto.Categoria);
             comando.Parameters.AddWithValue("@preco", Cadastro_Produto.Preco);
+            comando.Parameters.AddWithValue("@insta", Cadastro_Produto.Instagram);
 
             comando.ExecuteNonQuery();
 
             Conexao.Close();
         }
-
-        /*
-            Curtidas do produto
-         */
-        public void CurtidasProdutoE(ProdutoE_DTO curtida)
-        {
-            var Conexao = ConnectionFactory.Build();
-            Conexao.Open();
-
-            var query = @"INSERT INTO Produto_E ( LIKES ) VALUES ( @curtida )";
-            var comando = new MySqlCommand(query, Conexao);
-
-            comando.Parameters.AddWithValue("@curtidas", curtida.Like);
-            comando.ExecuteNonQuery();
-
-            Conexao.Close();
-        }
-
-        /*
-            Leitura de curtidas
-         */
-        public List<ProdutoE_DTO> LeituraCurtida(ProdutoE_DTO curtida)
-        {
-            var Conexao = ConnectionFactory.Build();
-            Conexao.Open();
-
-            var query = @"SELECT LIKES FROM Produto_E WHERE ID = @id";
-            var comando = new MySqlCommand(query, Conexao);
-
-            comando.Parameters.AddWithValue("@id", curtida.ID);
-            comando.ExecuteNonQuery();
-
-            var reader = comando.ExecuteReader();
-            var lista = new List<ProdutoE_DTO>();
-
-            while (reader.Read())
-            {
-                var curtidas = new ProdutoE_DTO();
-                curtidas.Like = int.Parse(reader["LIKES"].ToString());
-                lista.Add(curtidas);
-            }
-            Conexao.Close();
-            return lista;
-        }
-
         /*
             Alterar Produto
          */
@@ -105,12 +63,15 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"UPDATE Produto_E SET NOME = @nome, DESCRICAO = @descrica, PRECO = @preco WHERE ID = @id";
+            var query = @"UPDATE Produto_E SET NOME = @nome, DESCRICAO = @descrica, CATEGORIA = @categoria, 
+                        PRECO = @preco, INSTAGRAM = @insta WHERE ID = @id";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@nome", Alterar_Produto.Nome);
             comando.Parameters.AddWithValue("@descricao", Alterar_Produto.Descricao);
+            comando.Parameters.AddWithValue("@categoria", Alterar_Produto.Categoria);
             comando.Parameters.AddWithValue("@preco", Alterar_Produto.Preco);
+            comando.Parameters.AddWithValue("@insta", Alterar_Produto.Instagram);
             comando.Parameters.AddWithValue("@id", Alterar_Produto.ID);
 
             comando.ExecuteNonQuery();

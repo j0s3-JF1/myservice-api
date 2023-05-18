@@ -25,6 +25,7 @@ namespace MyService_API.DAO
                 empresa.Nome = reader["NOME"].ToString();
                 empresa.Empresa = reader["EMPRESA"].ToString();
                 empresa.CNPJ = reader["CNPJ"].ToString();
+                empresa.Telefone = reader["TELEFONE"].ToString();
                 empresa.Email = reader["EMAIL"].ToString();
                 empresa.Senha = reader["SENHA"].ToString();
                 lista.Add(empresa);
@@ -71,12 +72,13 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"INSERT INTO Empresa ( NOME, EMPRESA, CNPJ, EMAIL, SENHA ) VALUES ( @nome, @empresa, @cnpj, @email, @senha )";
+            var query = @"INSERT INTO Empresa ( NOME, EMPRESA, CNPJ, TELEFONE, EMAIL, SENHA ) VALUES ( @nome, @empresa, @cnpj, @telefone, @email, @senha )";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@nome", Empresa_Cadastro.Nome);
             comando.Parameters.AddWithValue("@empresa", Empresa_Cadastro.Empresa);
             comando.Parameters.AddWithValue("@cnpj", Empresa_Cadastro.CNPJ);
+            comando.Parameters.AddWithValue("@telefone", Empresa_Cadastro.Telefone);
             comando.Parameters.AddWithValue("@email", Empresa_Cadastro.Email);
             comando.Parameters.AddWithValue("@senha", Empresa_Cadastro.Senha);
 
@@ -93,13 +95,14 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"UPDATE Empresa SET NOME = @nome, EMPRESA = @empresa, CNPJ = @cnpj
+            var query = @"UPDATE Empresa SET NOME = @nome, EMPRESA = @empresa, CNPJ = @cnpj, TELEFONE = @telefone,
                 EMAIL = @email, SENHA = @senha WHERE ID = @id";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@nome", Empresa_Alterar.Nome);
             comando.Parameters.AddWithValue("@empresa", Empresa_Alterar.Empresa);
             comando.Parameters.AddWithValue("@cnpj", Empresa_Alterar.CNPJ);
+            comando.Parameters.AddWithValue("@telefone", Empresa_Alterar.Telefone);
             comando.Parameters.AddWithValue("@email", Empresa_Alterar.Email);
             comando.Parameters.AddWithValue("@senha", Empresa_Alterar.Senha);
             comando.Parameters.AddWithValue("@id", Empresa_Alterar.ID);
