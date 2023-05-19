@@ -129,7 +129,7 @@ namespace MyService_API.DAO
         }
 
         /*
-            Listagem de produtos do Trabalhador
+            Listagem de produtos
          */
         public List<ProdutoTrabalhadorDTO> Produtos( int id )
         {

@@ -41,14 +41,15 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"INSERT INTO Produto_T ( NOME, DESCRICAO,CATEGORIA, PRECO, INSTAGRAM ) 
-                        VALUES ( @nome, @descricao, @categoria, @preco )";
+            var query = @"INSERT INTO Produto_T ( NOME, DESCRICAO,CATEGORIA, PRECO, ID_TRABALHADOR ) 
+                        VALUES ( @nome, @descricao, @categoria, @preco, @id_Trabalhador )";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@nome", Cadastro_Produto.Nome);
             comando.Parameters.AddWithValue("@descricao", Cadastro_Produto.Descricao);
             comando.Parameters.AddWithValue("@categoria", Cadastro_Produto.Categoria);
             comando.Parameters.AddWithValue("@preco", Cadastro_Produto.Preco);
+            comando.Parameters.AddWithValue("@id_Trabalhador", Cadastro_Produto.ID_Trabalhador);
 
             comando.ExecuteNonQuery();
 
