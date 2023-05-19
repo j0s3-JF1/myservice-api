@@ -26,6 +26,7 @@ namespace MyService_API.DAO
                 trabalhador.SobreNome = reader["SOBRENOME"].ToString();
                 trabalhador.CPF = reader["CPF"].ToString();
                 trabalhador.Telefone = reader["TELEFONE"].ToString();
+                trabalhador.Instagram = reader["INSTAGRAM"].ToString();
                 trabalhador.Email = reader["EMAIL"].ToString();
                 trabalhador.Senha = reader["SENHA"].ToString();
                 lista.Add(trabalhador);
@@ -72,7 +73,7 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"INSERT INTO Trabalhador ( NOME, SOBRENOME, CPF,TELEFONE, EMAIL, SENHA ) VALUES ( @nome, @sobrenome, @cpf, @telefone, @email, @senha )";
+            var query = @"INSERT INTO Trabalhador ( NOME, SOBRENOME, CPF, TELEFONE, EMAIL, SENHA ) VALUES ( @nome, @sobrenome, @cpf, @telefone, @email, @senha )";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@nome", Trabalhador_Cadastro.Nome);
@@ -130,35 +131,89 @@ namespace MyService_API.DAO
         /*
             Listagem de produtos do Trabalhador
          */
-        public List<ProdutoT_DTO> ProdutosTrabalhador( int id )
+        public List<ProdutoTrabalhadorDTO> Produtos( int id )
         {
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"SELECT Produto_T.ID, Produto_T.NOME, Produto_T.DESCRICAO, Produto_T.PRECO, Produto.INSTAGRAM,
-                            Trabalhador.NOME, Trabalhador.EMAIL 
-                            FROM Produto_T 
-                            INNER JOIN Trabalhador ON Produto_T.ID_TRABALHADOR = Trabalhador.ID = @id";
+            var query = @"SELECT Produto_T.ID, Produto_T.NOME, Produto_T.DESCRICAO, Produto_T.CATEGORIA, Produto_T.PRECO,
+                        Trabalhador.NOME, Trabalhador.TELEFONE, Trabalhador.INSTAGRAM 
+                        FROM Produto_T INNER JOIN Trabalhador ON Produto_T.ID_TRABALHADOR = Trabalhador.ID = @id";
+            var comando = new MySqlCommand(query, Conexao);
 
+            comando.Parameters.AddWithValue("@id", id);
+            comando.ExecuteNonQuery();
+
+            var reader = comando.ExecuteReader();
+            var Lista = new List<ProdutoTrabalhadorDTO>();
+
+            while (reader.Read())
+            {
+                var produto = new ProdutoTrabalhadorDTO();
+                produto.ID_Produto = int.Parse(reader["ID"].ToString());
+                produto.Produto_Nome = reader["NOME"].ToString();
+                produto.Produto_Descricao = reader["DESCRICAO"].ToString();
+                produto.Produto_Categoria = reader["CATEGORIA"].ToString();
+                produto.Produto_Preco = double.Parse(reader["PRECO"].ToString());
+                produto.Trabalhador_Nome = reader["NOME"].ToString();
+                produto.Trabalhador_Telefone = reader["TELEFONE"].ToString();
+                produto.Trabalhador_Instagram = reader["INSTAGRAM"].ToString();
+                Lista.Add(produto);
+            }
+            Conexao.Close();
+            return Lista;
+        }
+        /*
+            Listagem de serviços
+         */
+        public List<ServicoTrabalhadorDTO> Servico( int id)
+        {
+            var Conexao = ConnectionFactory.Build();
+            Conexao.Open();
+
+            var query = @"SELECT Servico_T.ID, Servico_T.NOME, Servico_T.DESCRICAO, Servico_T.CATEGORIA, Servico_T.PRECO, 
+                        Trabalhador.NOME, Trabalhador.TELEFONE, Trabalhador.INSTAGRAM 
+                        FROM  Servico_T INNER JOIN Trabalhador ON Servico_T.ID_TRABALHADOR = Trabalhador.ID = @id";
             var comando = new MySqlCommand(query, Conexao);
             comando.Parameters.AddWithValue("@id", id);
             comando.ExecuteNonQuery();
 
             var reader = comando.ExecuteReader();
-            var Lista = new List<ProdutoT_DTO>();
+            var Lista = new List<ServicoTrabalhadorDTO>();
 
             while (reader.Read())
             {
-                var produtos = new ProdutoT_DTO();
-                produtos.ID = int.Parse(reader["ID"].ToString());
-                produtos.Nome = reader["NOME"].ToString();
-                produtos.Descricao = reader["DESCRICAO"].ToString();
-                produtos.Preco = float.Parse(reader["PRECO"].ToString());
-                produtos.ID_Trabalhador = int.Parse(reader["ID_TRABALHADOR"].ToString());
-                Lista.Add(produtos);
+                var servico = new ServicoTrabalhadorDTO();
+                servico.ID = int.Parse(reader["ID"].ToString());
+                servico.Servico_Nome = reader["NOME"].ToString();
+                servico.Servico_Descricao = reader["DESCRICAO"].ToString();
+                servico.Servico_Categoria = reader["CATEGORIA"].ToString();
+                servico.Servico_Preco = double.Parse(reader["PRECO"].ToString());
+                servico.Trabalhador_Nome = reader["NOME"].ToString();
+                servico.Trabalhador_Telefone = reader["TELEFONE"].ToString();
+                servico.Trabalhador_Insta = reader["INSTAGRAM"].ToString();
+                Lista.Add(servico);
             }
             Conexao.Close();
             return Lista;
+        }
+        /*
+            Inserção de link do Instagram
+         */
+        public void Instagram( TrabalhadorDTO insta )
+        {
+            var Conexao = ConnectionFactory.Build();
+            Conexao.Open();
+
+            var query = @"UPDATE Trabalhador SET INSTAGRAM = @insta WHERE ID = @id";
+            var comando = new MySqlCommand(query, Conexao);
+
+            comando.Parameters.AddWithValue("@insta", insta.Instagram);
+            comando.Parameters.AddWithValue("@id", insta.ID);
+
+            comando.ExecuteNonQuery();
+
+            Conexao.Close();
         }
     }
 }

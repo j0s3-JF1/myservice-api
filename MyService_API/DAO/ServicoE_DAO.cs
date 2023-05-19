@@ -39,14 +39,14 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"INSERT INTO Servico_E ( NOME, DESCRICAO, CADASTRO,PRECO, INSTAGRAM ) VALUES ( @nome, @descricao, @categoria, @preco, @insta )";
+            var query = @"INSERT INTO Servico_E ( NOME, DESCRICAO, CADASTRO,PRECO ) 
+                        VALUES ( @nome, @descricao, @categoria, @preco )";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@nome", Cadastro_Produto.Nome);
             comando.Parameters.AddWithValue("@descricao", Cadastro_Produto.Descricao);
             comando.Parameters.AddWithValue("@categoria", Cadastro_Produto.Categoria);
             comando.Parameters.AddWithValue("@preco", Cadastro_Produto.Preco);
-            comando.Parameters.AddWithValue("@insta", Cadastro_Produto.Instagram);
 
             comando.ExecuteNonQuery();
 
@@ -62,14 +62,13 @@ namespace MyService_API.DAO
             Conexao.Open();
 
             var query = @"UPDATE Servico_E SET NOME = @nome, DESCRICAO = @descricao, 
-                        CATEGORIA = @categoria, PRECO = @preco, INSTAGRAM = @insta WHERE ID = @id";
+                        CATEGORIA = @categoria, PRECO = @preco WHERE ID = @id";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@nome", Servico_Alterar.Nome);
             comando.Parameters.AddWithValue("@descricao", Servico_Alterar.Descricao);
             comando.Parameters.AddWithValue("@categoria", Servico_Alterar.Categoria);
             comando.Parameters.AddWithValue("@preco", Servico_Alterar.Preco);
-            comando.Parameters.AddWithValue("@insta", Servico_Alterar.Instagram);
             comando.Parameters.AddWithValue("id", Servico_Alterar.ID);
 
             comando.ExecuteNonQuery();

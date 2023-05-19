@@ -8,6 +8,14 @@ namespace MyService_API.Controllers
     [ApiController]
     public class AvaliacaoServicoEController : ControllerBase
     {
+        [HttpGet]
+        public IActionResult Comentario(int id)
+        {
+            AvaliacaoServicoEDAO dao = new AvaliacaoServicoEDAO();
+            dao.ListaDeComentario(id);
+            return Ok(id);
+        }
+
         [HttpPost]
         public IActionResult Avaliacao( AvaliacaoServicoEDTO avaliacao)
         {

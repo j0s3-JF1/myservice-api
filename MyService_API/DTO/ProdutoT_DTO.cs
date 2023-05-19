@@ -7,7 +7,6 @@
         public string Descricao { get; set; }
         public string Categoria { get; set; }
         public float Preco { get; set; }
-        public string Instagram { get; set; }
         public int ID_Trabalhador { get; set; }
     }
 }

@@ -1,18 +1,18 @@
-﻿using MyService_API.DTO;
+﻿using Microsoft.AspNetCore.Mvc;
 using MyService_API.DAO;
-using Microsoft.AspNetCore.Mvc;
+using MyService_API.DTO;
 
 namespace MyService_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TrabalhadorProdutosController : ControllerBase
+    public class ServicoTrabalhadorController : ControllerBase
     {
         [HttpGet]
-        public IActionResult Listar( int id )
+        public IActionResult Lista( int id)
         {
             TrabalhadorDAO dao = new TrabalhadorDAO();
-            dao.Produtos(id);
+            dao.Servico(id);
             return Ok(id);
         }
     }

@@ -128,5 +128,93 @@ namespace MyService_API.DAO
             comando.ExecuteNonQuery();
             Conexao.Close();
         }
+        /*
+         * Lista de Produtos
+         */
+        public List<ProdutoEmpresaDTO> Produtos( int id)
+        {
+            var Conexao = ConnectionFactory.Build();
+            Conexao.Open();
+
+            var query = @"SELECT Produto_E.ID, Produto_E.NOME, Produto_E.DESCRICAO,Produto_E.CATEGORIA, Produto_E.PRECO, 
+                        Empresa.NOME, Empresa.EMPRESA, Empresa.TELEFONE, Empresa.INSTAGRAM 
+                        FROM Produto_E INNER JOIN Empresa ON Produto_E.ID_EMPRESA = Empresa.ID = @id";
+            var comando = new MySqlCommand(query, Conexao);
+            comando.Parameters.AddWithValue("@id", id);
+            comando.ExecuteNonQuery();
+
+            var reader = comando.ExecuteReader();
+            var Lista = new List<ProdutoEmpresaDTO>();
+
+            while (reader.Read())
+            {
+                var produto = new ProdutoEmpresaDTO();
+                produto.ID = int.Parse(reader["ID"].ToString());
+                produto.Produto_Nome = reader["NOME"].ToString();
+                produto.Produto_Descricao = reader["DESCRICAO"].ToString();
+                produto.Produto_Categoria = reader["CATEGORIA"].ToString();
+                produto.Produto_Preco = double.Parse(reader["PRECO"].ToString());
+                produto.Empresa_Nome = reader["NOME"].ToString();
+                produto.Empresa_Empresa = reader["EMPRESA"].ToString();
+                produto.Empresa_Telefone = reader["TELEFONE"].ToString();
+                produto.Empresa_Insta = reader["INSTAGRAM"].ToString();
+                Lista.Add(produto);
+            }
+            Conexao.Close();
+            return Lista;
+        }
+        /*
+         * Listagem de serviços
+         */
+        public List<ServicoEmpresaDTO> Servico( int id)
+        {
+            var Conexao = ConnectionFactory.Build();
+            Conexao.Open();
+
+            var query = @"SELECT Servico_E.ID, Servico_E.NOME, Servico_E.DESCRICAO, Servico_E.CATEGORIA, Servico_E.PRECO, 
+                        Empresa.NOME, Empresa.EMPRESA, Empresa.TELEFONE, Empresa.INSTAGRAM 
+                        FROM Servico_E INNER JOIN Empresa ON Servico_E.ID_EMPRESA = Empresa.ID = @id";
+            var comando = new MySqlCommand(query, Conexao);
+            comando.Parameters.AddWithValue("@id", id);
+            comando.ExecuteNonQuery();
+
+            var reader = comando.ExecuteReader();
+            var Lista = new List<ServicoEmpresaDTO>();
+
+            while (reader.Read())
+            {
+                var servico = new ServicoEmpresaDTO();
+                servico.ID = int.Parse(reader["ID"].ToString());
+                servico.Servico_Nome = reader["NOME"].ToString();
+                servico.Servico_Descricao = reader["DESCRICAO"].ToString();
+                servico.Servico_Categoria = reader["CATEGORIA"].ToString();
+                servico.Servico_Preco = double.Parse(reader["PRECO"].ToString());
+                servico.Empresa_Nome = reader["NOME"].ToString();
+                servico.Empresa_Empresa = reader["EMPRESA"].ToString();
+                servico.Empresa_Telefone = reader["TELEFONE"].ToString();
+                servico.Empresa_Insta = reader["INSTAGRAM"].ToString();
+                Lista.Add(servico);
+            }
+            Conexao.Close();
+            return Lista;
+        }
+        /*
+            Inserção de link do instagram
+         */
+        public void Instagram( EmpresaDTO insta )
+        {
+            var Conexao = ConnectionFactory.Build();
+            Conexao.Open();
+
+            var query = @"UPDATE Empresa SET INSTAGRAM = @insta WHERE ID = @id";
+            var comando = new MySqlCommand(query, Conexao);
+
+            comando.Parameters.AddWithValue("@insta", insta.Instagram);
+            comando.Parameters.AddWithValue("@id", insta.ID);
+
+            comando.ExecuteNonQuery();
+
+            Conexao.Close();
+        }
     }
 }

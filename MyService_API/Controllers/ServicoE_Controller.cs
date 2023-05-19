@@ -32,7 +32,7 @@ namespace MyService_API.Controllers
             return Ok(produto);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Deletar( int id)
         {
             ServicoE_DAO dao = new ServicoE_DAO();
