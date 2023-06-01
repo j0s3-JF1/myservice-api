@@ -8,12 +8,13 @@ namespace MyService_API.DAO
         public void AvaliacaoProdutoE(AvaliacaoProdutoEDTO avaliacao)
         {
             var Conexao = ConnectionFactory.Build();
-            Conexao.Close();
+            Conexao.Open();
 
-            var query = @"INSERT INTO AvaliacaoProduto_E(COMENTARIO) VALUE ( @comentario )";
+            var query = @"insert into AvaliacaoProduto_E( COMENTARIO, ID_PRODUTO_E) VALUE (@comentario, @id);";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@comentario", avaliacao.Comentario);
+            comando.Parameters.AddWithValue("@id", avaliacao.ID_PRODUTO_E);
 
             comando.ExecuteNonQuery();
 

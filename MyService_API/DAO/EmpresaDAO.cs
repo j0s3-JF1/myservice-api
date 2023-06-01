@@ -131,7 +131,7 @@ namespace MyService_API.DAO
         /*
          * Lista de Produtos
          */
-        public List<ProdutoEmpresaDTO> Produtos( int id)
+        public List<ProdutoEmpresaDTO> Produtos( int id )
         {
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();

@@ -9,10 +9,11 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"INSERT INTO AvaliacaoProduto_T(COMENTARIO) VALUES ( @comentario ) ";
+            var query = @"INSERT INTO AvaliacaoProduto_T(COMENTARIO, ID_PRODUTO_T ) VALUES ( @comentario, @id_produto ) ";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@comentario", avaliacao.Comentario);
+            comando.Parameters.AddWithValue("@id_produto", avaliacao.ID_PRODUTO_T);
 
             comando.ExecuteNonQuery();
 

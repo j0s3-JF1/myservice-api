@@ -41,7 +41,7 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"INSERT INTO Produto_T ( NOME, DESCRICAO,CATEGORIA, PRECO, ID_TRABALHADOR ) 
+            var query = @"INSERT INTO Produto_T ( NOME, DESCRICAO, CATEGORIA, PRECO, ID_TRABALHADOR ) 
                         VALUES ( @nome, @descricao, @categoria, @preco, @id_Trabalhador )";
             var comando = new MySqlCommand(query, Conexao);
 

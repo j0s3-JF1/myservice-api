@@ -24,7 +24,7 @@ namespace MyService_API.DAO
                 servico.Nome = reader["NOME"].ToString();
                 servico.Descricao = reader["DESCRICAO"].ToString();
                 servico.Preco = float.Parse(reader["PRECO"].ToString());
-                servico.ID_EMPRESA = int.Parse(reader["ID_TRABALHADOR"].ToString());
+                servico.ID_EMPRESA = int.Parse(reader["ID_EMPRESA"].ToString());
                 lista.Add(servico);
             }
             Conexao.Close();
@@ -39,7 +39,7 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"INSERT INTO Servico_E ( NOME, DESCRICAO, CADASTRO,PRECO, ID_EMPRESA ) 
+            var query = @"INSERT INTO Servico_E ( NOME, DESCRICAO, CATEGORIA ,PRECO, ID_EMPRESA ) 
                         VALUES ( @nome, @descricao, @categoria, @preco, @id_Empresa )";
             var comando = new MySqlCommand(query, Conexao);
 

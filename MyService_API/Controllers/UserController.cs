@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyService_API.DAO;
 using MyService_API.DTO;
-using System.Xml.Linq;
 
 namespace MyService_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         [HttpGet]
@@ -17,12 +18,13 @@ namespace MyService_API.Controllers
             return Ok(User);
         }
 
-        [HttpPost]
-        public IActionResult Cadastrar(UserDTO user)
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult UsuarioPorID( int id )
         {
             UserDAO dao = new UserDAO();
-            dao.CadastroUsuario(user);
-            return Ok(user);
+            var usuario = dao.ListarPorID(id);
+            return Ok(usuario);
         }
 
         [HttpPut]

@@ -12,8 +12,8 @@ namespace MyService_API.Controllers
         public IActionResult Comentario(int id)
         {
             AvaliacaoServicoTDAO dao = new AvaliacaoServicoTDAO();
-            dao.ListaDeComentario(id);
-            return Ok(id);
+            var avaliacao = dao.ListaDeComentario(id);
+            return Ok(avaliacao);
         }
 
         [HttpPost]

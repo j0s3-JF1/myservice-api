@@ -32,33 +32,60 @@ namespace MyService_API.DAO
             return lista;
         }
 
-        /*
-            Login do usuario no sistema
-         */
-        public List<UserDTO> LoginUsuario( UserDTO Usuario_Login )
+        public UserDTO ListarPorID( int id)
         {
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"SELECT EMAIL, SENHA FROM Usuario WHERE EMAIL = @email AND SENHA = @senha";
+            var query = @"SELECT * FROM Usuario WHERE ID = @id";
             var comando = new MySqlCommand(query, Conexao);
 
-            comando.Parameters.AddWithValue("@email", Usuario_Login.Email);
-            comando.Parameters.AddWithValue("@senha", Usuario_Login.Senha);
-
-            comando.ExecuteNonQuery();
+            comando.Parameters.AddWithValue("@id", id);
 
             var reader = comando.ExecuteReader();
-            var lista = new List<UserDTO>();
+            var usuario = new UserDTO();
 
             while(reader.Read())
             {
-                var usuario = new UserDTO();
+                usuario.ID = int.Parse(reader["ID"].ToString());
+                usuario.Nome = reader["NOME"].ToString();
+                usuario.SobreNome = reader["SOBRENOME"].ToString();
                 usuario.Email = reader["EMAIL"].ToString();
                 usuario.Senha = reader["SENHA"].ToString();
             }
             Conexao.Close();
-            return lista;
+            return usuario;
+        }
+
+        /*
+            Login do usuario no sistema
+         */
+        public UserDTO LoginUsuario( UserDTO dadosLogin )
+        {
+            var Conexao = ConnectionFactory.Build();
+            Conexao.Open();
+
+            var query = @"SELECT * FROM Usuario WHERE EMAIL = @email AND SENHA = @senha";
+            var comando = new MySqlCommand( query, Conexao);
+
+            comando.Parameters.AddWithValue("@email", dadosLogin.Email);
+            comando.Parameters.AddWithValue("@senha", dadosLogin.Senha);
+            comando.ExecuteNonQuery();
+
+            var reader = comando.ExecuteReader();
+            var login = new UserDTO();
+            
+            while (reader.Read())
+            {
+                login.ID = int.Parse(reader["ID"].ToString());
+                login.Nome = reader["NOME"].ToString();
+                login.SobreNome = reader["SOBRENOME"].ToString();
+                login.Email = reader["EMAIL"].ToString();
+                login.Senha = reader["SENHA"].ToString();
+            }
+            Conexao.Close();
+
+            return login;
         }
 
         /*
@@ -69,7 +96,8 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"INSERT INTO Usuario ( NOME, SOBRENOME, EMAIL, SENHA ) VALUES ( @nome, @sobrenome, @email, @senha )";
+            var query = @"INSERT INTO Usuario ( NOME, SOBRENOME, EMAIL, SENHA ) 
+                        VALUES ( @nome, @sobrenome, @email, @senha )";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@nome", Usuario_Cadastro.Nome);

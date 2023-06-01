@@ -12,8 +12,8 @@ namespace MyService_API.Controllers
         public IActionResult Listar( int id )
         {
             TrabalhadorDAO dao = new TrabalhadorDAO();
-            dao.Produtos(id);
-            return Ok(id);
+            var TrabalhadorProduto = dao.Produtos(id);
+            return Ok(TrabalhadorProduto);
         }
     }
 }

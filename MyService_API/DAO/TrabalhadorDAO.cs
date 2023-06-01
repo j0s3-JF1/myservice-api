@@ -73,7 +73,8 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"INSERT INTO Trabalhador ( NOME, SOBRENOME, CPF, TELEFONE, EMAIL, SENHA ) VALUES ( @nome, @sobrenome, @cpf, @telefone, @email, @senha )";
+            var query = @"INSERT INTO Trabalhador ( NOME, SOBRENOME, CPF, TELEFONE, EMAIL, SENHA ) 
+                        VALUES ( @nome, @sobrenome, @cpf, @telefone, @email, @senha )";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@nome", Trabalhador_Cadastro.Nome);

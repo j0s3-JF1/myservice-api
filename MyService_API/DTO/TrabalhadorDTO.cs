@@ -1,6 +1,4 @@
-﻿using Org.BouncyCastle.Bcpg.OpenPgp;
-
-namespace MyService_API.DTO
+﻿namespace MyService_API.DTO
 {
     public class TrabalhadorDTO
     {

@@ -6,14 +6,14 @@ namespace MyService_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserLoginController : ControllerBase
+    public class EmpresaServicoController : ControllerBase
     {
         [HttpGet]
-        public IActionResult UserLogin(UserDTO login)
+        public IActionResult Lista( int id )
         {
-            UserDAO dao = new UserDAO();
-            dao.LoginUsuario(login);
-            return Ok(login);
+            EmpresaDAO dao = new EmpresaDAO();
+            var servico = dao.Servico(id);
+            return Ok(servico);
         }
     }
 }

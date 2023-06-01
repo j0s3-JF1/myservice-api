@@ -26,7 +26,7 @@ namespace MyService_API.DAO
                 produto.Descricao = reader["DESCRICAO"].ToString();
                 produto.Categoria = reader["CATEGORIA"].ToString();
                 produto.Preco = float.Parse(reader["PRECO"].ToString());
-                produto.ID_EMPRESA = int.Parse(reader["ID_TRABALHADOR"].ToString());
+                produto.ID_EMPRESA = int.Parse(reader["ID_EMPRESA"].ToString());
                 lista.Add(produto);
             }
             Conexao.Close();
@@ -63,7 +63,7 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"UPDATE Produto_E SET NOME = @nome, DESCRICAO = @descrica, CATEGORIA = @categoria, 
+            var query = @"UPDATE Produto_E SET NOME = @nome, DESCRICAO = @descricao, CATEGORIA = @categoria, 
                         PRECO = @preco WHERE ID = @id";
             var comando = new MySqlCommand(query, Conexao);
 

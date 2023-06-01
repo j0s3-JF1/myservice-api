@@ -4,7 +4,6 @@ using MyService_API.DTO;
 
 namespace MyService_API.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class ProdutoE_Controller : ControllerBase
