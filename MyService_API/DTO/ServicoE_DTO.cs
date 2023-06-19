@@ -9,6 +9,7 @@ namespace MyService_API.DTO
         public string Descricao { get; set; }
         public string Categoria { get; set; }
         public float Preco { get; set; }
-        public int ID_EMPRESA { get; set; }
+        public string Imagem { get; set; }
+        public int ID_WORK { get; set; }
     }
 }

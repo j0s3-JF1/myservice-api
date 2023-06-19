@@ -9,7 +9,17 @@ namespace MyService_API.Controllers
     public class AvaliacaoServicoEController : ControllerBase
     {
         [HttpGet]
+        [Route("{id}")]
         public IActionResult Comentario(int id)
+        {
+            AvaliacaoServicoEDAO dao = new AvaliacaoServicoEDAO();
+            var avaliacao = dao.ListaDeComentario(id);
+            return Ok(avaliacao);
+        }
+
+        [HttpGet]
+        [Route("lista")]
+        public IActionResult Listar(int id)
         {
             AvaliacaoServicoEDAO dao = new AvaliacaoServicoEDAO();
             var avaliacao = dao.ListaDeComentario(id);

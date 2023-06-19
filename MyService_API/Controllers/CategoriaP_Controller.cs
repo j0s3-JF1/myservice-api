@@ -15,5 +15,23 @@ namespace MyService_API.Controllers
             var Categoria = dao.ListarCategoriaP();
             return Ok(Categoria);
         }
+
+        [HttpGet]
+        [Route("Trabalhador")]
+        public IActionResult ProdutosTrabalhador( string categoria )
+        {
+            var dao = new CategoriaP_DAO();
+            var produtos = dao.ListaProdutoTrabalhador(categoria);
+            return Ok(produtos);
+        }
+
+        [HttpGet]
+        [Route("Empresa")]
+        public IActionResult ProdutosEmpresa( string categoria)
+        {
+            var dao = new CategoriaP_DAO();
+            var produtos = dao.ListaProdutoEmpresa(categoria);
+            return Ok(produtos);
+        }
     }
 }

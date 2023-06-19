@@ -26,7 +26,8 @@ namespace MyService_API.DAO
                 servico.Descricao = reader["DESCRICAO"].ToString();
                 servico.Categoria = reader["CATEGORIA"].ToString();
                 servico.Preco = float.Parse(reader["PRECO"].ToString());
-                servico.ID_TRABALHADOR = int.Parse(reader["ID_TRABALHADOR"].ToString());
+                servico.Imagem = reader["IMAGEM"].ToString();
+                servico.ID_WORK = int.Parse(reader["ID_WORK"].ToString());
                 lista.Add(servico);
             }
             Conexao.Close();
@@ -41,15 +42,16 @@ namespace MyService_API.DAO
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"INSERT INTO Servico_T ( NOME, DESCRICAO, CATEGORIA, PRECO, ID_TRABALHADOR ) 
-                        VALUES ( @nome, @descricao, @categoria, @preco, @id_Trabalhador )";
+            var query = @"INSERT INTO Servico_T ( NOME, DESCRICAO, CATEGORIA, PRECO, IMAGEM, ID_WORK ) 
+                        VALUES ( @nome, @descricao, @categoria, @preco, @imagem, @id_work )";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@nome", Cadastro_Produto.Nome);
             comando.Parameters.AddWithValue("@descricao", Cadastro_Produto.Descricao);
             comando.Parameters.AddWithValue("@categoria", Cadastro_Produto.Categoria);
             comando.Parameters.AddWithValue("@preco", Cadastro_Produto.Preco);
-            comando.Parameters.AddWithValue("@id_Trabalhador", Cadastro_Produto.ID_TRABALHADOR);
+            comando.Parameters.AddWithValue("@imagem", Cadastro_Produto.Imagem);
+            comando.Parameters.AddWithValue("@id_work", Cadastro_Produto.ID_WORK);
 
             comando.ExecuteNonQuery();
 
@@ -65,19 +67,19 @@ namespace MyService_API.DAO
             Conexao.Open();
 
             var query = @"UPDATE Servico_T SET NOME = @nome, DESCRICAO = @descricao, CATEGORIA = @categoria,
-                        PRECO = @preco WHERE ID = @id";
+                        PRECO = @preco, IMAGEM = @imagem WHERE ID = @id";
             var comando = new MySqlCommand(query, Conexao);
 
             comando.Parameters.AddWithValue("@nome", Servico_Alterar.Nome);
             comando.Parameters.AddWithValue("@descricao", Servico_Alterar.Descricao);
             comando.Parameters.AddWithValue("@categoria", Servico_Alterar.Categoria);
             comando.Parameters.AddWithValue("@preco", Servico_Alterar.Preco);
+            comando.Parameters.AddWithValue("@imagem", Servico_Alterar.Imagem);
             comando.Parameters.AddWithValue("@id", Servico_Alterar.ID);
 
             comando.ExecuteNonQuery();
             Conexao.Close();
         }
-
         /*
             Deletar Serviço
          */

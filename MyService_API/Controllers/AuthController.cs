@@ -45,7 +45,7 @@ namespace MyService_API.Controllers
                 "MyService",
                 "MyService",
                 claims,
-                expires: DateTime.UtcNow.AddYears(1),
+                expires: DateTime.UtcNow.AddMinutes(5),
                 signingCredentials: credentials
             );
 

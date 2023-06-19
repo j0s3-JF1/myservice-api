@@ -16,6 +16,24 @@ namespace MyService_API.Controllers
             return Ok(Trabalhador);
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult ListaPorID( int id)
+        {
+            TrabalhadorDAO dao = new TrabalhadorDAO();
+            var Trabalhador = dao.ListarTrabalhadorPorID(id);
+            return Ok(Trabalhador);
+        }
+
+        [HttpGet]
+        [Route("Acesso")]
+        public IActionResult Acesso( int id)
+        {
+            TrabalhadorDAO dao = new TrabalhadorDAO();
+            var Acesso = dao.Access(id);
+            return Ok(Acesso);
+        }
+
         [HttpPost]
         public IActionResult Cadastrar( TrabalhadorDTO work )
         {

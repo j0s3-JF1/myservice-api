@@ -63,5 +63,70 @@ namespace MyService_API.DAO
             Conexao.Close();
             return lista;
         }
+
+        /*
+         * Busca de Produtos Apartir de Categorias (Trabalhador)
+         */
+
+        public ProdutoT_DTO ListaProdutoTrabalhador( string categoria )
+        {
+            var Conexao = ConnectionFactory.Build();
+            Conexao.Open();
+
+            var query = @"SELECT * FROM Produto_T WHERE CATEGORIA = @categoria";
+
+            var comando = new MySqlCommand(query, Conexao);
+
+            comando.Parameters.AddWithValue("@categoria", categoria);
+            comando.ExecuteNonQuery();
+
+            var reader = comando.ExecuteReader();
+            var produto = new ProdutoT_DTO();
+
+            while (reader.Read())
+            {
+                produto.ID = int.Parse(reader["ID"].ToString());
+                produto.Nome = reader["NOME"].ToString();
+                produto.Descricao = reader["DESCRICAO"].ToString();
+                produto.Categoria = reader["CATEGORIA"].ToString();
+                produto.Preco = float.Parse(reader["PRECO"].ToString());
+                produto.ID_WORK = int.Parse(reader["ID_WORK"].ToString());
+            }
+
+            Conexao.Close();
+
+            return produto;
+        }
+
+        /*
+         * Lista de produtos por categoria (Empresa)
+         */
+
+        public ProdutoE_DTO ListaProdutoEmpresa( string categoria )
+        {
+            var Conexao = ConnectionFactory.Build();
+            Conexao.Open();
+
+            var query = @"SELECT * FROM Produto_E WHERE CATEGORIA = @categoria";
+            var comando = new MySqlCommand( query, Conexao);
+            comando.Parameters.AddWithValue("@categoria", categoria);
+            comando.ExecuteNonQuery();
+
+            var reader = comando.ExecuteReader();
+            var produto = new ProdutoE_DTO();
+
+            while (reader.Read())
+            {
+                produto.ID = int.Parse(reader["ID"].ToString());
+                produto.Nome = reader["NOME"].ToString();
+                produto.Descricao = reader["DESCRICAO"].ToString();
+                produto.Categoria = reader["CATEGORIA"].ToString();
+                produto.Preco = float.Parse(reader["PRECO"].ToString());
+                produto.ID_WORK = int.Parse(reader["ID_WORK"].ToString());
+            }
+            Conexao.Close();
+
+            return produto;
+        }
     }
 }

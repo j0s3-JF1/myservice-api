@@ -9,10 +9,20 @@ namespace MyService_API.Controllers
     public class TrabalhadorServicoController: ControllerBase
     {
         [HttpGet]
-        public IActionResult Lista( int id)
+        [Route("Trabalhador")]
+        public IActionResult ListaTrabalhador( int id)
         {
             TrabalhadorDAO dao = new TrabalhadorDAO();
-            var servico = dao.Servico(id);
+            var servico = dao.ServicoTrabalhador(id);
+            return Ok(servico);
+        }
+
+        [HttpGet]
+        [Route("Empresa")]
+        public IActionResult ListaEmpresa(int id)
+        {
+            TrabalhadorDAO dao = new TrabalhadorDAO();
+            var servico = dao.ServicoEmpresa(id);
             return Ok(servico);
         }
     }

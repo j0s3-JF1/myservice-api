@@ -51,5 +51,29 @@ namespace MyService_API.DAO
             Conexao.Close();
             return Lista;
         }
+
+        public AvaliacaoServicoTDTO Listar(int id)
+        {
+            var Conexao = ConnectionFactory.Build();
+            Conexao.Open();
+
+            var query = @"SELECT * FROM AvaliacaoServico_T WHERE ID = @id";
+            var comando = new MySqlCommand(query, Conexao);
+
+            comando.Parameters.AddWithValue("@id", id);
+
+            var reader = comando.ExecuteReader();
+            var avaliacao = new AvaliacaoServicoTDTO();
+
+            while (reader.Read())
+            {
+                avaliacao.ID = int.Parse(reader["ID"].ToString());
+                avaliacao.Comentario = reader["COMENTARIO"].ToString();
+            }
+
+            Conexao.Close();
+
+            return avaliacao;
+        }
     }
 }

@@ -63,5 +63,65 @@ namespace MyService_API.DAO
             Conexao.Close();
             return lista;
         }
+
+        /*
+         * Listagem de serviços pela categoria (Trabalhador)
+         */
+        public ServicoT_DTO ListaServicoTrabalhador( string categoria)
+        {
+            var Conexao = ConnectionFactory.Build();
+            Conexao.Open();
+
+            var query = @"SELECT * FROM Servico_T WHERE CATEGORIA = @categoria";
+            var comando = new MySqlCommand( query, Conexao);
+            comando.Parameters.AddWithValue("@categoria", categoria);
+            comando.ExecuteNonQuery();
+
+            var reader = comando.ExecuteReader();
+            var servico = new ServicoT_DTO();
+
+            while (reader.Read())
+            {
+                servico.ID = int.Parse(reader["ID"].ToString());
+                servico.Nome = reader["NOME"].ToString();
+                servico.Descricao = reader["DESCRICAO"].ToString();
+                servico.Categoria = reader["CATEGORIA"].ToString();
+                servico.Preco = float.Parse(reader["PRECO"].ToString());
+                servico.ID_WORK = int.Parse(reader["ID_WORK"].ToString());
+            }
+            Conexao.Close();
+
+            return servico;
+        }
+
+        /*
+         *Listagem de serviços pela categoria (empresa)
+         */
+        public ServicoE_DTO ListaServicoEmpresa( string categoria )
+        {
+            var Conexao = ConnectionFactory.Build();
+            Conexao.Open();
+
+            var query = @"SELECT * FROM Servico_E WHERE CATEGORIA = @categoria";
+            var comando = new MySqlCommand(query, Conexao);
+            comando.Parameters.AddWithValue("@categoria", categoria);
+            comando.ExecuteNonQuery();
+
+            var reader = comando.ExecuteReader();
+            var servico = new ServicoE_DTO();
+
+            while (reader.Read())
+            {
+                servico.ID = int.Parse(reader["ID"].ToString());
+                servico.Nome = reader["NOME"].ToString();
+                servico.Descricao = reader["DESCRICAO"].ToString();
+                servico.Categoria = reader["CATEGORIA"].ToString();
+                servico.Preco = float.Parse(reader["PRECO"].ToString());
+                servico.ID_WORK = int.Parse(reader["ID_WORK"].ToString());
+            }
+            Conexao.Close();
+
+            return servico;
+        }
     }
 }
