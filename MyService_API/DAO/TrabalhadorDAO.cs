@@ -73,31 +73,39 @@ namespace MyService_API.DAO
         /*
             Login do usuario
          */
-        public List<TrabalhadorDTO> LoginTrabalhador( TrabalhadorDTO Trabalhador_Login)
+        public TrabalhadorDTO LoginTrabalhador( TrabalhadorDTO dadoslogin)
         {
             var Conexao = ConnectionFactory.Build();
             Conexao.Open();
 
-            var query = @"SELECT EMAIL, SENHA FROM Worker WHERE EMAIL = @email AND SENHA = @senha";
+            var query = @"SELECT * FROM Worker WHERE EMAIL = @email AND SENHA = @senha";
             var comando = new MySqlCommand(query, Conexao);
 
-            comando.Parameters.AddWithValue("@email", Trabalhador_Login.Email);
-            comando.Parameters.AddWithValue("@senha", Trabalhador_Login.Senha);
-
+            comando.Parameters.AddWithValue("@email", dadoslogin.Email);
+            comando.Parameters.AddWithValue("@senha", dadoslogin.Senha);
             comando.ExecuteNonQuery();
 
             var reader = comando.ExecuteReader();
-            var lista = new List<TrabalhadorDTO>();
+            var login = new TrabalhadorDTO();
 
             while (reader.Read())
             {
-                var trabalhador = new TrabalhadorDTO();
-                trabalhador.Email = reader["EMAIL"].ToString();
-                trabalhador.Senha = reader["SENHA"].ToString();
-                lista.Add(trabalhador);
+                login.ID = int.Parse(reader["ID"].ToString());
+                login.Nome = reader["NOME"].ToString();
+                login.Empresa = reader["EMPRESA"].ToString();
+                login.CPF_CNPJ = reader["CPF_CNPJ"].ToString();
+                login.Telefone = reader["TELEFONE"].ToString();
+                login.Instagram = reader["INSTAGRAM"].ToString();
+                login.Email = reader["EMAIL"].ToString();
+                login.Senha = reader["SENHA"].ToString();
+                login.Acesso = reader["ACESSO"].ToString();
+                login.Imagem = reader["IMAGEM"].ToString();
             }
+
             Conexao.Close();
-            return lista;
+
+            return login;
+
         }
 
         /*
@@ -135,7 +143,7 @@ namespace MyService_API.DAO
             Conexao.Open();
 
             var query = @"UPDATE Worker SET NOME = @nome, EMPRESA = @empresa, 
-                        CPF_CNPJ = @cpf_cnpj, TELEFONE = @telefone, EMAIL = @email, SENHA = @senha, 
+                        CPF_CNPJ = @cpf_cnpj, TELEFONE = @telefone, INSTAGRAM = @instagram, EMAIL = @email, SENHA = @senha, 
                         ACESSO = @acesso, IMAGEM = @imagem WHERE ID = @id";
             var comando = new MySqlCommand(query, Conexao);
 
@@ -143,6 +151,7 @@ namespace MyService_API.DAO
             comando.Parameters.AddWithValue("@empresa", Trabalhador_Alterar.Empresa);
             comando.Parameters.AddWithValue("@cpf_cnpj", Trabalhador_Alterar.CPF_CNPJ);
             comando.Parameters.AddWithValue("@telefone", Trabalhador_Alterar.Telefone);
+            comando.Parameters.AddWithValue("@instagram", Trabalhador_Alterar.Instagram);
             comando.Parameters.AddWithValue("@email", Trabalhador_Alterar.Email);
             comando.Parameters.AddWithValue("@senha", Trabalhador_Alterar.Senha);
             comando.Parameters.AddWithValue("@acesso", Trabalhador_Alterar.Acesso);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyService_API.DAO;
 using MyService_API.DTO;
 
@@ -6,6 +7,7 @@ namespace MyService_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TrabalhadorController : ControllerBase
     {
         [HttpGet]
@@ -32,14 +34,6 @@ namespace MyService_API.Controllers
             TrabalhadorDAO dao = new TrabalhadorDAO();
             var Acesso = dao.Access(id);
             return Ok(Acesso);
-        }
-
-        [HttpPost]
-        public IActionResult Cadastrar( TrabalhadorDTO work )
-        {
-            TrabalhadorDAO dao = new TrabalhadorDAO();
-            dao.CadastroTrabalhador(work);
-            return Ok(work);
         }
 
         [HttpPut]
